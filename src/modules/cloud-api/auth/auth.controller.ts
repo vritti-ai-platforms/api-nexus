@@ -169,7 +169,11 @@ export class AuthController {
 
     // Set refresh token in httpOnly cookie (use getter functions to ensure config is loaded)
     if (response.refreshToken) {
-      reply.setCookie(getRefreshCookieName(), response.refreshToken, getRefreshCookieOptionsFromConfig());
+      const cookieName = getRefreshCookieName();
+      const cookieOptions = getRefreshCookieOptionsFromConfig();
+      this.logger.log(`Login: Setting refresh cookie: ${cookieName}, options: ${JSON.stringify(cookieOptions)}`);
+      this.logger.log(`Login: refreshToken length: ${response.refreshToken.length}`);
+      reply.setCookie(cookieName, response.refreshToken, cookieOptions);
     }
 
     // Remove refreshToken from response (it's in the cookie)
