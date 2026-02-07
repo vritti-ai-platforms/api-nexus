@@ -295,4 +295,54 @@ export class AuthService {
       },
     );
   }
+
+  /**
+   * Change user password
+   * Validates current password before updating
+   */
+  async changePassword(userId: string, currentPassword: string, newPassword: string): Promise<void> {
+    // Get user
+    const userResponse = await this.userService.findById(userId);
+    const user = await this.userService.findByEmail(userResponse.email);
+
+    if (!user) {
+      throw new UnauthorizedException("We couldn't find your account. Please log in again.");
+    }
+
+    // Verify current password
+    if (!user.passwordHash) {
+      throw new BadRequestException({
+        label: 'No Password Set',
+        detail: 'Your account does not have a password set. Please use password recovery or OAuth sign-in.',
+        errors: [{ field: 'password', message: 'No password set' }],
+      });
+    }
+
+    const isCurrentPasswordValid = await this.encryptionService.comparePassword(
+      currentPassword,
+      user.passwordHash,
+    );
+
+    if (!isCurrentPasswordValid) {
+      throw new UnauthorizedException('The current password you entered is incorrect. Please try again.');
+    }
+
+    // Ensure new password is different
+    const isSamePassword = await this.encryptionService.comparePassword(newPassword, user.passwordHash);
+    if (isSamePassword) {
+      throw new BadRequestException({
+        label: 'Password Already In Use',
+        detail: 'Your new password must be different from your current password.',
+        errors: [{ field: 'newPassword', message: 'Password already in use' }],
+      });
+    }
+
+    // Hash new password
+    const newPasswordHash = await this.encryptionService.hashPassword(newPassword);
+
+    // Update password
+    await this.userService.update(user.id, { passwordHash: newPasswordHash });
+
+    this.logger.log(`Password changed for user: ${user.id}`);
+  }
 }
