@@ -2,7 +2,7 @@ import { nexusSchema } from './nexus-schema';
 
 export const userRoleEnum = nexusSchema.enum('user_role', ['SUPER_ADMIN', 'ADMIN', 'SUPPORT']);
 export const userStatusEnum = nexusSchema.enum('user_status', ['PENDING', 'ACTIVE', 'SUSPENDED']);
-export const sessionTypeEnum = nexusSchema.enum('session_type', ['NEXUS', 'SET_PASSWORD']);
+export const sessionTypeEnum = nexusSchema.enum('session_type', ['NEXUS', 'SET_PASSWORD', 'RESET']);
 
 // TypeScript type exports for use in DTOs and services
 export type UserRole = (typeof userRoleEnum.enumValues)[number];
@@ -25,4 +25,5 @@ export const UserStatusValues = {
 export const SessionTypeValues = {
   NEXUS: 'NEXUS' as const,
   SET_PASSWORD: 'SET_PASSWORD' as const,
+  RESET: 'RESET' as const,
 };

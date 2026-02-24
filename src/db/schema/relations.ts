@@ -5,12 +5,21 @@ export const relations = defineRelations(schema, (r) => ({
   // User relations
   users: {
     sessions: r.many.sessions(),
+    verifications: r.many.verifications(),
   },
 
   // Session relations
   sessions: {
     user: r.one.users({
       from: r.sessions.userId,
+      to: r.users.id,
+    }),
+  },
+
+  // Verification relations
+  verifications: {
+    user: r.one.users({
+      from: r.verifications.userId,
       to: r.users.id,
     }),
   },

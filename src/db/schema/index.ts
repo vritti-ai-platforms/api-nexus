@@ -6,5 +6,6 @@ export * from './enums';
 // Export all tables
 export * from './users';
 export * from './sessions';
+export * from './verifications';
 // Export relations last (depends on tables above)
 export * from './relations';

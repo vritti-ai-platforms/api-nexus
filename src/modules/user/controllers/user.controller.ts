@@ -1,9 +1,9 @@
 import { Body, Controller, HttpCode, HttpStatus, Logger, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from '@vritti/api-sdk';
+import { ApiCreateUserWebhook } from '../docs/user.docs';
 import { UserDto } from '../dto/entity/user.dto';
 import { CreateUserWebhookDto } from '../dto/request/create-user-webhook.dto';
-import { ApiCreateUserWebhook } from '../docs/user.docs';
 import { UserService } from '../services/user.service';
 
 @ApiTags('Users')

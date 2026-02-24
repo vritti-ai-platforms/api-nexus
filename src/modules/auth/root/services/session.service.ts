@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { Injectable, Logger } from '@nestjs/common';
 import { getConfig, getRefreshCookieOptions, hashToken, UnauthorizedException } from '@vritti/api-sdk';
 import { type Session, type SessionType } from '@/db/schema';
-import { TokenType } from '../../../config/jwt.config';
+import { TokenType } from '../../../../config/jwt.config';
 import { SessionRepository } from '../repositories/session.repository';
 import { JwtAuthService } from './jwt.service';
 

@@ -2,12 +2,16 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConfigFactory } from '../../config/jwt.config';
+import { EmailService } from '../../services/email.service';
 import { UserModule } from '../user/user.module';
-import { AuthController } from './controllers/auth.controller';
-import { SessionRepository } from './repositories/session.repository';
-import { AuthService } from './services/auth.service';
-import { JwtAuthService } from './services/jwt.service';
-import { SessionService } from './services/session.service';
+import { VerificationModule } from '../verification/verification.module';
+import { ForgotPasswordController } from './forgot-password/controllers/forgot-password.controller';
+import { PasswordResetService } from './forgot-password/services/password-reset.service';
+import { AuthController } from './root/controllers/auth.controller';
+import { SessionRepository } from './root/repositories/session.repository';
+import { AuthService } from './root/services/auth.service';
+import { JwtAuthService } from './root/services/jwt.service';
+import { SessionService } from './root/services/session.service';
 
 @Module({
   imports: [
@@ -16,9 +20,19 @@ import { SessionService } from './services/session.service';
       useFactory: jwtConfigFactory,
     }),
     UserModule,
+    VerificationModule,
   ],
-  controllers: [AuthController],
-  providers: [AuthService, JwtAuthService, SessionService, SessionRepository],
+  controllers: [AuthController, ForgotPasswordController],
+  providers: [
+    // Root
+    AuthService,
+    JwtAuthService,
+    SessionService,
+    SessionRepository,
+    // Forgot password
+    PasswordResetService,
+    EmailService,
+  ],
   exports: [AuthService, SessionService],
 })
 export class AuthModule {}

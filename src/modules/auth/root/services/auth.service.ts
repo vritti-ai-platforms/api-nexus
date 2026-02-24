@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { BadRequestException, UnauthorizedException } from '@vritti/api-sdk';
 import { SessionTypeValues, UserStatusValues } from '@/db/schema';
-import { UserService } from '../../user/services/user.service';
+import { UserService } from '../../../user/services/user.service';
 import { AuthResponseDto } from '../dto/response/auth-response.dto';
 import { LoginDto } from '../dto/request/login.dto';
 import { SetPasswordDto } from '../dto/request/set-password.dto';
@@ -114,8 +114,24 @@ export class AuthService {
     }
 
     try {
-      const { accessToken, expiresIn } = await this.sessionService.generateAccessToken(refreshToken);
-      return new AuthResponseDto({ isAuthenticated: true, accessToken, expiresIn });
+      const { accessToken, expiresIn, userId } = await this.sessionService.generateAccessToken(refreshToken);
+      const user = await this.userService.findById(userId);
+      return new AuthResponseDto({
+        isAuthenticated: true,
+        accessToken,
+        expiresIn,
+        user: user ? {
+          id: user.id,
+          externalId: user.externalId ?? null,
+          email: user.email,
+          fullName: user.fullName,
+          role: user.role,
+          status: user.status,
+          hasPassword: user.passwordHash !== null,
+          createdAt: user.createdAt.toISOString(),
+          lastLoginAt: user.lastLoginAt?.toISOString() ?? null,
+        } : undefined,
+      });
     } catch {
       return new AuthResponseDto({ isAuthenticated: false });
     }

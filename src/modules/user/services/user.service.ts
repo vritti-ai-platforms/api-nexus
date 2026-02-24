@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { NotFoundException } from '@vritti/api-sdk';
 import { type User, UserRoleValues } from '@/db/schema';
-import { CreateUserWebhookDto } from '../dto/request/create-user-webhook.dto';
 import { UserDto } from '../dto/entity/user.dto';
+import { CreateUserWebhookDto } from '../dto/request/create-user-webhook.dto';
 import { UserRepository } from '../repositories/user.repository';
 
 @Injectable()

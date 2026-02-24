@@ -1,5 +1,5 @@
 import { plainToInstance, Transform } from 'class-transformer';
-import { IsBoolean, IsEnum, IsNumber, IsString, Max, Min, validateSync } from 'class-validator';
+import { IsBoolean, IsEmail, IsEnum, IsNumber, IsOptional, IsString, Max, Min, validateSync } from 'class-validator';
 
 enum Environment {
   Development = 'development',
@@ -114,6 +114,19 @@ class EnvironmentVariables {
   @IsNumber()
   @Min(1)
   OTP_MAX_ATTEMPTS: number;
+
+  // Email / Brevo
+  @IsString()
+  @IsOptional()
+  BREVO_API_KEY?: string;
+
+  @IsEmail()
+  @IsOptional()
+  SENDER_EMAIL?: string;
+
+  @IsString()
+  @IsOptional()
+  SENDER_NAME?: string;
 }
 
 // Validates environment variables at application startup

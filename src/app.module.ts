@@ -6,11 +6,11 @@ import { relations } from '@/db/schema';
 
 import './db/schema.registry';
 
-import { RouterModule } from '@nestjs/core';
 import { AuthConfigModule, DatabaseModule, type DatabaseModuleOptions, LoggerModule } from '@vritti/api-sdk';
 import { validate } from './config/env.validation';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
+import { VerificationModule } from './modules/verification/verification.module';
 import { AppController } from './modules/root/controllers/app.controller';
 import { CsrfController } from './modules/root/controllers/csrf.controller';
 import { AppService } from './modules/root/services/app.service';
@@ -77,16 +77,10 @@ import { AppService } from './modules/root/services/app.service';
     // Authentication module (Global guard + JWT)
     // Must be imported after DatabaseModule since VrittiAuthGuard depends on its services
     AuthConfigModule.forRootAsync(),
-    // Nexus API modules
+    // Nexus API modules — routes registered at root (proxy strips /api prefix)
     AuthModule,
     UserModule,
-    // Nexus API routes with 'api' prefix
-    RouterModule.register([
-      {
-        path: 'api',
-        children: [AuthModule, UserModule],
-      },
-    ]),
+    VerificationModule,
   ],
   controllers: [AppController, CsrfController],
   providers: [AppService],

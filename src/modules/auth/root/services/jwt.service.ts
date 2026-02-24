@@ -3,8 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { type JwtSignOptions, JwtService as NestJwtService } from '@nestjs/jwt';
 import { hashToken } from '@vritti/api-sdk';
 import type { SessionType } from '@/db/schema';
-import { getTokenExpiry, type TokenExpiry, TokenType } from '../../../config/jwt.config';
-import { parseExpiryToMs } from '../../../utils/parse-expiry.util';
+import { getTokenExpiry, type TokenExpiry, TokenType } from '../../../../config/jwt.config';
+import { parseExpiryToMs } from '../../../../utils/parse-expiry.util';
 
 @Injectable()
 export class JwtAuthService {
