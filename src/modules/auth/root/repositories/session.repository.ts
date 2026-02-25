@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrimaryBaseRepository, PrimaryDatabaseService } from '@vritti/api-sdk';
-import { and, eq, lt } from '@vritti/api-sdk/drizzle-orm';
+import { eq, lt } from '@vritti/api-sdk/drizzle-orm';
 import { type Session, sessions } from '@/db/schema';
 
 @Injectable()
@@ -24,12 +24,7 @@ export class SessionRepository extends PrimaryBaseRepository<typeof sessions> {
   }
 
   // Updates the access and refresh token hashes and extends session expiry
-  async rotateTokens(
-    id: string,
-    accessTokenHash: string,
-    refreshTokenHash: string,
-    expiresAt: Date,
-  ): Promise<Session> {
+  async rotateTokens(id: string, accessTokenHash: string, refreshTokenHash: string, expiresAt: Date): Promise<Session> {
     return this.update(id, { accessTokenHash, refreshTokenHash, expiresAt });
   }
 

@@ -6,14 +6,11 @@ import { relations } from '@/db/schema';
 
 import './db/schema.registry';
 
-import { AuthConfigModule, DatabaseModule, type DatabaseModuleOptions, LoggerModule } from '@vritti/api-sdk';
+import { AuthConfigModule, DatabaseModule, type DatabaseModuleOptions, EmailModule, LoggerModule, RootModule } from '@vritti/api-sdk';
 import { validate } from './config/env.validation';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { VerificationModule } from './modules/verification/verification.module';
-import { AppController } from './modules/root/controllers/app.controller';
-import { CsrfController } from './modules/root/controllers/csrf.controller';
-import { AppService } from './modules/root/services/app.service';
 
 @Module({
   imports: [
@@ -77,12 +74,14 @@ import { AppService } from './modules/root/services/app.service';
     // Authentication module (Global guard + JWT)
     // Must be imported after DatabaseModule since VrittiAuthGuard depends on its services
     AuthConfigModule.forRootAsync(),
+    // Root module — health check and CSRF endpoints
+    RootModule,
+    // Email module — globally provided EmailService
+    EmailModule,
     // Nexus API modules — routes registered at root (proxy strips /api prefix)
     AuthModule,
     UserModule,
     VerificationModule,
   ],
-  controllers: [AppController, CsrfController],
-  providers: [AppService],
 })
 export class AppModule {}

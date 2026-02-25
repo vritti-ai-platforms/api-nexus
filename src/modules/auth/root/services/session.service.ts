@@ -1,10 +1,8 @@
 import { randomUUID } from 'node:crypto';
 import { Injectable, Logger } from '@nestjs/common';
-import { getConfig, getRefreshCookieOptions, hashToken, UnauthorizedException } from '@vritti/api-sdk';
+import { getConfig, getRefreshCookieOptions, hashToken, JwtAuthService, TokenType, UnauthorizedException } from '@vritti/api-sdk';
 import { type Session, type SessionType } from '@/db/schema';
-import { TokenType } from '../../../../config/jwt.config';
 import { SessionRepository } from '../repositories/session.repository';
-import { JwtAuthService } from './jwt.service';
 
 // Returns the configured refresh cookie name from api-sdk settings
 export function getRefreshCookieName(): string {

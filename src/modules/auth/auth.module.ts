@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConfigFactory } from '../../config/jwt.config';
-import { EmailService } from '../../services/email.service';
+import { EmailModule, jwtConfigFactory } from '@vritti/api-sdk';
 import { UserModule } from '../user/user.module';
 import { VerificationModule } from '../verification/verification.module';
 import { ForgotPasswordController } from './forgot-password/controllers/forgot-password.controller';
@@ -10,7 +9,6 @@ import { PasswordResetService } from './forgot-password/services/password-reset.
 import { AuthController } from './root/controllers/auth.controller';
 import { SessionRepository } from './root/repositories/session.repository';
 import { AuthService } from './root/services/auth.service';
-import { JwtAuthService } from './root/services/jwt.service';
 import { SessionService } from './root/services/session.service';
 
 @Module({
@@ -19,6 +17,7 @@ import { SessionService } from './root/services/session.service';
       inject: [ConfigService],
       useFactory: jwtConfigFactory,
     }),
+    EmailModule,
     UserModule,
     VerificationModule,
   ],
@@ -26,12 +25,10 @@ import { SessionService } from './root/services/session.service';
   providers: [
     // Root
     AuthService,
-    JwtAuthService,
     SessionService,
     SessionRepository,
     // Forgot password
     PasswordResetService,
-    EmailService,
   ],
   exports: [AuthService, SessionService],
 })

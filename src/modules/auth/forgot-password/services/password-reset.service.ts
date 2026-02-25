@@ -4,7 +4,7 @@ import { BadRequestException } from '@vritti/api-sdk';
 import * as argon2 from 'argon2';
 import type { FastifyReply } from 'fastify';
 import { SessionTypeValues } from '@/db/schema';
-import { EmailService } from '../../../../services/email.service';
+import { EmailService } from '@vritti/api-sdk';
 import { UserService } from '../../../user/services/user.service';
 import { getRefreshCookieName, getRefreshCookieOptionsFromConfig, SessionService } from '../../root/services/session.service';
 import { VerificationRepository } from '../../../verification/repositories/verification.repository';
