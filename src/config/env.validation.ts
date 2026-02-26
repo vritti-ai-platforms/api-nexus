@@ -115,6 +115,10 @@ class EnvironmentVariables {
   @Min(1)
   OTP_MAX_ATTEMPTS: number;
 
+  // Webhook
+  @IsString()
+  NEXUS_WEBHOOK_SECRET: string;
+
   // Email / Brevo
   @IsString()
   @IsOptional()

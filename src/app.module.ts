@@ -9,6 +9,7 @@ import './db/schema.registry';
 import { AuthConfigModule, DatabaseModule, type DatabaseModuleOptions, EmailModule, LoggerModule, RootModule } from '@vritti/api-sdk';
 import { validate } from './config/env.validation';
 import { AuthModule } from './modules/auth/auth.module';
+import { OrganizationModule } from './modules/organization/organization.module';
 import { UserModule } from './modules/user/user.module';
 import { VerificationModule } from './modules/verification/verification.module';
 
@@ -81,6 +82,7 @@ import { VerificationModule } from './modules/verification/verification.module';
     // Nexus API modules — routes registered at root (proxy strips /api prefix)
     AuthModule,
     UserModule,
+    OrganizationModule,
     VerificationModule,
   ],
 })

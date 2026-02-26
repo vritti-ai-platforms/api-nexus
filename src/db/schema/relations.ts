@@ -23,4 +23,7 @@ export const relations = defineRelations(schema, (r) => ({
       to: r.users.id,
     }),
   },
+
+  // Organization relations
+  organizations: {},
 }));

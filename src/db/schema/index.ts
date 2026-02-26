@@ -7,5 +7,6 @@ export * from './enums';
 export * from './users';
 export * from './sessions';
 export * from './verifications';
+export * from './organizations';
 // Export relations last (depends on tables above)
 export * from './relations';

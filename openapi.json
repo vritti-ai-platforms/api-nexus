@@ -435,6 +435,42 @@
           "Users"
         ]
       }
+    },
+    "/organizations/webhook": {
+      "post": {
+        "description": "Receives an organization creation event from cloud-server and creates the organization in the nexus database.",
+        "operationId": "OrganizationController_createFromWebhook",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrganizationWebhookDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Organization created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrganizationDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data or validation error."
+          }
+        },
+        "summary": "Create organization from webhook",
+        "tags": [
+          "Organizations"
+        ]
+      }
     }
   },
   "info": {
@@ -463,7 +499,7 @@
   ],
   "servers": [
     {
-      "url": "https://local.vrittiai.com:3001",
+      "url": "https://local.vrittiai.com:3007",
       "description": "Local Development"
     }
   ],
@@ -785,6 +821,127 @@
           "role",
           "status",
           "hasPassword",
+          "createdAt"
+        ]
+      },
+      "CreateOrganizationWebhookDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Organization name",
+            "example": "Acme Corp"
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Organization subdomain",
+            "example": "acme-corp"
+          },
+          "size": {
+            "type": "string",
+            "description": "Organization size",
+            "enum": [
+              "0-10",
+              "10-20",
+              "20-50",
+              "50-100",
+              "100-500",
+              "500+"
+            ],
+            "example": "0-10"
+          },
+          "plan": {
+            "type": "string",
+            "description": "Subscription plan",
+            "enum": [
+              "free",
+              "pro",
+              "enterprise"
+            ],
+            "example": "free"
+          },
+          "industryId": {
+            "type": "number",
+            "description": "Industry ID",
+            "example": 1
+          },
+          "mediaId": {
+            "type": "number",
+            "description": "Media asset ID for the organization logo",
+            "example": 42
+          }
+        },
+        "required": [
+          "name",
+          "subdomain",
+          "size"
+        ]
+      },
+      "OrganizationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Organization unique identifier",
+            "example": "a1b2c3d4-..."
+          },
+          "name": {
+            "type": "string",
+            "description": "Organization name",
+            "example": "Acme Corp"
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Organization subdomain",
+            "example": "acme-corp"
+          },
+          "industryId": {
+            "type": "object",
+            "description": "Industry ID",
+            "example": 1,
+            "nullable": true
+          },
+          "size": {
+            "type": "string",
+            "description": "Organization size",
+            "enum": [
+              "0-10",
+              "10-20",
+              "20-50",
+              "50-100",
+              "100-500",
+              "500+"
+            ],
+            "example": "0-10"
+          },
+          "mediaId": {
+            "type": "object",
+            "description": "Media asset ID",
+            "example": 42,
+            "nullable": true
+          },
+          "plan": {
+            "type": "string",
+            "description": "Subscription plan",
+            "enum": [
+              "free",
+              "pro",
+              "enterprise"
+            ],
+            "example": "free"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Organization creation timestamp",
+            "example": "2024-01-15T10:30:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "subdomain",
+          "size",
+          "plan",
           "createdAt"
         ]
       }
