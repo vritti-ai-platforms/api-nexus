@@ -16,7 +16,6 @@ export class OrganizationService {
       subdomain: dto.subdomain,
       size: dto.size,
       plan: dto.plan,
-      industryId: dto.industryId,
       mediaId: dto.mediaId,
     });
 

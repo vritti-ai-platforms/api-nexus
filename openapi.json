@@ -438,9 +438,19 @@
     },
     "/organizations/webhook": {
       "post": {
-        "description": "Receives an organization creation event from cloud-server and creates the organization in the nexus database.",
+        "description": "Receives an organization creation event from cloud-server. Requires X-Webhook-Secret header for authentication.",
         "operationId": "OrganizationController_createFromWebhook",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "X-Webhook-Secret",
+            "in": "header",
+            "description": "Webhook authentication secret",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -464,6 +474,9 @@
           },
           "400": {
             "description": "Invalid input data or validation error."
+          },
+          "401": {
+            "description": "Invalid or missing webhook secret."
           }
         },
         "summary": "Create organization from webhook",
@@ -499,7 +512,7 @@
   ],
   "servers": [
     {
-      "url": "https://local.vrittiai.com:3007",
+      "url": "https://local.vrittiai.com:3001",
       "description": "Local Development"
     }
   ],

@@ -12,9 +12,13 @@ export class OrganizationDto {
   subdomain: string;
 
   @ApiPropertyOptional({ description: 'Industry ID', example: 1, nullable: true })
-  industryId: number | null;
+  industryId: string | null;
 
-  @ApiProperty({ description: 'Organization size', enum: ['0-10', '10-20', '20-50', '50-100', '100-500', '500+'], example: '0-10' })
+  @ApiProperty({
+    description: 'Organization size',
+    enum: ['0-10', '10-20', '20-50', '50-100', '100-500', '500+'],
+    example: '0-10',
+  })
   size: OrgSize;
 
   @ApiPropertyOptional({ description: 'Media asset ID', example: 42, nullable: true })
@@ -32,7 +36,6 @@ export class OrganizationDto {
     dto.id = org.id;
     dto.name = org.name;
     dto.subdomain = org.subdomain;
-    dto.industryId = org.industryId ?? null;
     dto.size = org.size;
     dto.mediaId = org.mediaId ?? null;
     dto.plan = org.plan;

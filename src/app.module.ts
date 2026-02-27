@@ -6,7 +6,14 @@ import { relations } from '@/db/schema';
 
 import './db/schema.registry';
 
-import { AuthConfigModule, DatabaseModule, type DatabaseModuleOptions, EmailModule, LoggerModule, RootModule } from '@vritti/api-sdk';
+import {
+  AuthConfigModule,
+  DatabaseModule,
+  type DatabaseModuleOptions,
+  EmailModule,
+  LoggerModule,
+  RootModule,
+} from '@vritti/api-sdk';
 import { validate } from './config/env.validation';
 import { AuthModule } from './modules/auth/auth.module';
 import { OrganizationModule } from './modules/organization/organization.module';
